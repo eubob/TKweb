@@ -22,14 +22,27 @@
             <input type="hidden" name="action" value="login">
             
             <div class="form-group">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" required placeholder="Digite seu nome">
+                <label for="email">E-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    placeholder="seu@email.com">
             </div>
-            
+
             <div class="form-group">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" required placeholder="••••••••">
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    required
+                    autocomplete="current-password"
+                    placeholder="Digite sua senha">
             </div>
+
             
             <button type="submit" class="btn-submit">Entrar</button>
         </form>
