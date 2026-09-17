@@ -1,15 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login - TKWeb</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - TKWeb</title>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
 </head>
 <body>
     <div class="auth-container">
         <h2>TKWEB</h2>
-
+        
         <% if (request.getAttribute("msgErro") != null) { %>
             <div class="alert-error"><%= request.getAttribute("msgErro") %></div>
         <% } %>
@@ -18,9 +19,9 @@
             <div class="alert-success"><%= request.getAttribute("msgSucesso") %></div>
         <% } %>
 
-        <form action="auth" method="post">
+        <form action="<%= request.getContextPath() %>/auth" method="post">
             <input type="hidden" name="action" value="login">
-            
+
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input
@@ -43,12 +44,11 @@
                     placeholder="Digite sua senha">
             </div>
 
-            
             <button type="submit" class="btn-submit">Entrar</button>
         </form>
 
         <div class="auth-link">
-            Não tem uma conta? <a href="cadastro.jsp">Cadastre-se</a>
+            Não tem uma conta? <a href="<%= request.getContextPath() %>/cadastro.jsp">Cadastre-se</a>
         </div>
     </div>
 </body>
