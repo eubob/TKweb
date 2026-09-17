@@ -126,6 +126,23 @@ a {
     background: #181818;
 }
 
+.logout-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.logout-link:hover {
+    background: #181818;
+    color: #fff;
+}
+
 .avatar {
     width: 40px;
     height: 40px;
@@ -555,7 +572,8 @@ a {
 
     .nav-text,
     .user-mini-text,
-    .post-main-btn {
+    .post-main-btn,
+    .logout-link {
         display: none;
     }
 

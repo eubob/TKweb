@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,7 +10,7 @@
 <body>
     <div class="auth-container">
         <h2>TKWEB</h2>
-        
+      
         <% if (request.getAttribute("msgErro") != null) { %>
             <div class="alert-error"><%= request.getAttribute("msgErro") %></div>
         <% } %>

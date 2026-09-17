@@ -153,9 +153,20 @@ public class HabilidadeDAO {
 
     public List<String> listarCategorias() {
         List<String> categorias = new ArrayList<>();
-        String sql = "SELECT DISTINCT categoria FROM habilidades ORDER BY categoria";
+        String sql = "SELECT DISTINCT categoria FROM habilidades WHERE categoria IS NOT NULL AND TRIM(categoria) <> '' ORDER BY categoria";
         try (Connection conn = MysqlSingleton.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) categorias.add(rs.getString(1));
+        } catch (SQLException e) {
+            return categorias;
+        }
+        return categorias;
+    }
+
+    public java.util.Map<String, Integer> listarCategoriasMaisPopulares() {
+        java.util.Map<String, Integer> categorias = new java.util.LinkedHashMap<>();
+        String sql = "SELECT categoria, COUNT(*) AS total FROM habilidades WHERE categoria IS NOT NULL AND TRIM(categoria) <> '' GROUP BY categoria ORDER BY total DESC, categoria ASC";
+        try (Connection conn = MysqlSingleton.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) categorias.put(rs.getString("categoria"), rs.getInt("total"));
         } catch (SQLException e) {
             return categorias;
         }

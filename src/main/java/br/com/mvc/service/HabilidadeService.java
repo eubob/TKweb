@@ -56,6 +56,10 @@ public class HabilidadeService {
         return dao.listarCategorias();
     }
 
+    public java.util.Map<String, Integer> listarCategoriasMaisPopulares() {
+        return dao.listarCategoriasMaisPopulares();
+    }
+
     private boolean validar(Habilidade habilidade, boolean atualizar) {
         if (habilidade == null || habilidade.getUsuarioId() == null) return false;
         if (atualizar && habilidade.getId() == null) return false;

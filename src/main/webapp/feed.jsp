@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="br.com.mvc.model.Usuario" %>
@@ -17,6 +17,8 @@
     List<Habilidade> sugestoes = (List<Habilidade>) request.getAttribute("sugestoes");
     List<Habilidade> minhasOfertas = (List<Habilidade>) request.getAttribute("minhasOfertas");
     Map<Long, List<Comentario>> comentarios = (Map<Long, List<Comentario>>) request.getAttribute("comentarios");
+    Map<String, Integer> categoriasPopulares = (Map<String, Integer>) request.getAttribute("categoriasPopulares");
+    request.setAttribute("activePage", "feed");
 
     String categoriaAtual = request.getParameter("categoria");
     String tipoAtual = request.getParameter("tipo");
@@ -39,42 +41,7 @@
 <body>
 <div class="feed-shell">
 
-    <aside class="leftbar">
-        <a class="brand" href="<%= request.getContextPath() %>/feed">TK</a>
-
-        <nav class="main-nav">
-            <a class="nav-link active" href="<%= request.getContextPath() %>/feed">
-                <span class="nav-icon">⌂</span>
-                <span class="nav-text">Início</span>
-            </a>
-            <a class="nav-link" href="<%= request.getContextPath() %>/habilidades">
-                <span class="nav-icon">✦</span>
-                <span class="nav-text">Meus conhecimentos</span>
-            </a>
-            <a class="nav-link" href="<%= request.getContextPath() %>/perfil">
-                <span class="nav-icon">◉</span>
-                <span class="nav-text">Perfil</span>
-            </a>
-            <a class="nav-link" href="<%= request.getContextPath() %>/trocas">
-                <span class="nav-icon">↔</span>
-                <span class="nav-text">Trocas</span>
-            </a>
-            <a class="nav-link" href="<%= request.getContextPath() %>/notificacoes">
-                <span class="nav-icon">♧</span>
-                <span class="nav-text">Notificações</span>
-            </a>
-        </nav>
-
-        <a class="post-main-btn" href="<%= request.getContextPath() %>/habilidades">Publicar</a>
-
-        <a class="user-mini" href="<%= request.getContextPath() %>/perfil">
-            <span class="avatar"><%= iniciais %></span>
-            <span class="user-mini-text">
-                <span class="user-mini-name"><%= nome %></span>
-                <span class="user-mini-meta"><%= usuario.getPontos() %> pontos</span>
-            </span>
-        </a>
-    </aside>
+    <%@ include file="/WEB-INF/includes/sidebar.jspf" %>
 
     <main class="timeline">
         <header class="timeline-header">
@@ -156,10 +123,12 @@
                                 </button>
                             </form>
 
-                            <button class="icon-button" type="button" onclick="document.getElementById('exchange-<%= h.getId() %>').scrollIntoView({behavior:'smooth', block:'center'})">
-                                <span class="icon">↔</span>
-                                <span>Trocar</span>
-                            </button>
+                            <% if (!minha) { %>
+                                <button class="icon-button" type="button" onclick="document.getElementById('exchange-<%= h.getId() %>').scrollIntoView({behavior:'smooth', block:'center'})">
+                                    <span class="icon">↔</span>
+                                    <span>Trocar</span>
+                                </button>
+                            <% } %>
 
                             <a class="icon-button" href="<%= request.getContextPath() %>/perfil?id=<%= h.getUsuarioId() %>">
                                 <span class="icon">◉</span>
@@ -240,21 +209,22 @@
 
         <section class="panel">
             <div class="panel-title">Categorias</div>
-            <% if (categorias != null) { for (String categoria : categorias) { %>
-                <a class="panel-row" href="<%= request.getContextPath() %>/feed?categoria=<%= java.net.URLEncoder.encode(categoria, java.nio.charset.StandardCharsets.UTF_8) %>">
-                    <span class="panel-content">
-                        <span class="panel-name"><%= categoria %></span>
-                        <span class="panel-description">Explorar publicações</span>
-                    </span>
-                    <span class="panel-action">→</span>
-                </a>
-            <% }} %>
+            <% if (categoriasPopulares != null && !categoriasPopulares.isEmpty()) { %>
+                <% for (Map.Entry<String, Integer> categoria : categoriasPopulares.entrySet()) { %>
+                    <a class="panel-row" href="<%= request.getContextPath() %>/feed?categoria=<%= java.net.URLEncoder.encode(categoria.getKey(), java.nio.charset.StandardCharsets.UTF_8) %>">
+                        <span class="panel-content">
+                            <span class="panel-name"><%= categoria.getKey() %></span>
+                            <span class="panel-description"><%= categoria.getValue() %> publicações</span>
+                        </span>
+                        <span class="panel-action">→</span>
+                    </a>
+                <% } %>
+            <% } %>
         </section>
 
         <div style="color:#71767b;font-size:12px;padding:0 8px 20px;">
             Troca de Conhecimentos · Compartilhe o que sabe. Aprenda o que procura.
-            <br><br>
-            <a href="<%= request.getContextPath() %>/auth?action=logout" style="color:#e7e9ea;">Sair</a>
+            
         </div>
     </aside>
 </div>

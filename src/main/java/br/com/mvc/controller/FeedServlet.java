@@ -35,12 +35,14 @@ public class FeedServlet extends HttpServlet {
         List<Habilidade> feed = habilidadeService.listarFeed(categoria, tipo, usuario.getId());
         List<String> categorias = habilidadeService.listarCategorias();
         if (categorias.isEmpty()) categorias = List.of(HabilidadeService.CATEGORIAS);
+        Map<String, Integer> categoriasPopulares = habilidadeService.listarCategoriasMaisPopulares();
         List<Habilidade> sugestoes = habilidadeService.listarSugestoes(usuario.getId(), 6);
         List<Habilidade> minhasOfertas = habilidadeService.listarPorUsuario(usuario.getId()).stream().filter(h -> "OFERECE".equals(h.getTipo())).toList();
         Map<Long, List<Comentario>> comentarios = new HashMap<>();
         for (Habilidade h : feed) comentarios.put(h.getId(), interacaoService.comentarios(h.getId()));
         request.setAttribute("feed", feed);
         request.setAttribute("categorias", categorias);
+        request.setAttribute("categoriasPopulares", categoriasPopulares);
         request.setAttribute("sugestoes", sugestoes);
         request.setAttribute("minhasOfertas", minhasOfertas);
         request.setAttribute("comentarios", comentarios);

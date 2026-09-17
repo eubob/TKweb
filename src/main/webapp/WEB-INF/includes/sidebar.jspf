@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <%@ page import="br.com.mvc.model.Usuario" %>
 <%
     Usuario usuarioMenu = (Usuario) session.getAttribute("usuarioLogado");
@@ -41,4 +42,6 @@
             <span class="user-mini-meta"><%= usuarioMenu != null ? usuarioMenu.getPontos() : 0 %> pontos</span>
         </span>
     </a>
+
+    <a class="logout-link" href="<%= request.getContextPath() %>/auth?action=logout">Sair</a>
 </aside>
