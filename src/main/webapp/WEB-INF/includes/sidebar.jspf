@@ -1,0 +1,44 @@
+<%@ page import="br.com.mvc.model.Usuario" %>
+<%
+    Usuario usuarioMenu = (Usuario) session.getAttribute("usuarioLogado");
+    String nomeMenu = usuarioMenu != null && usuarioMenu.getNome() != null ? usuarioMenu.getNome().trim() : "Usuário";
+    String[] partesMenu = nomeMenu.split("\\s+");
+    String iniciaisMenu;
+    if (partesMenu.length > 1 && !partesMenu[0].isEmpty() && !partesMenu[partesMenu.length - 1].isEmpty()) {
+        iniciaisMenu = (partesMenu[0].substring(0, 1) + partesMenu[partesMenu.length - 1].substring(0, 1)).toUpperCase();
+    } else {
+        iniciaisMenu = nomeMenu.length() >= 2 ? nomeMenu.substring(0, 2).toUpperCase() : nomeMenu.toUpperCase();
+    }
+    String activePage = (String) request.getAttribute("activePage");
+%>
+<aside class="leftbar">
+    <a class="brand" href="<%= request.getContextPath() %>/feed">TK</a>
+
+    <nav class="main-nav">
+        <a class="nav-link <%= "feed".equals(activePage) ? "active" : "" %>" href="<%= request.getContextPath() %>/feed">
+            <span class="nav-icon">⌂</span><span class="nav-text">Início</span>
+        </a>
+        <a class="nav-link <%= "habilidades".equals(activePage) ? "active" : "" %>" href="<%= request.getContextPath() %>/habilidades">
+            <span class="nav-icon">✦</span><span class="nav-text">Meus conhecimentos</span>
+        </a>
+        <a class="nav-link <%= "perfil".equals(activePage) ? "active" : "" %>" href="<%= request.getContextPath() %>/perfil">
+            <span class="nav-icon">◉</span><span class="nav-text">Perfil</span>
+        </a>
+        <a class="nav-link <%= "trocas".equals(activePage) ? "active" : "" %>" href="<%= request.getContextPath() %>/trocas">
+            <span class="nav-icon">↔</span><span class="nav-text">Trocas</span>
+        </a>
+        <a class="nav-link <%= "notificacoes".equals(activePage) ? "active" : "" %>" href="<%= request.getContextPath() %>/notificacoes">
+            <span class="nav-icon">♧</span><span class="nav-text">Notificações</span>
+        </a>
+    </nav>
+
+    <a class="post-main-btn" href="<%= request.getContextPath() %>/habilidades">Publicar</a>
+
+    <a class="user-mini" href="<%= request.getContextPath() %>/perfil">
+        <span class="avatar"><%= iniciaisMenu %></span>
+        <span class="user-mini-text">
+            <span class="user-mini-name"><%= nomeMenu %></span>
+            <span class="user-mini-meta"><%= usuarioMenu != null ? usuarioMenu.getPontos() : 0 %> pontos</span>
+        </span>
+    </a>
+</aside>
