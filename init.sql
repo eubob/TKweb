@@ -186,3 +186,10 @@ CREATE TABLE IF NOT EXISTS notificacoes (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO usuarios (nome, email, senha)
+VALUES (
+    'Admin',
+    'admin@admin.com',
+    SHA2('123456', 256)
+);
