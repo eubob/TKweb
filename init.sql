@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS tkweb;
+
 USE tkweb;
 
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -14,5 +15,9 @@ CREATE TABLE IF NOT EXISTS habilidades (
     descricao TEXT,
     tipo ENUM('OFERECE', 'DESEJA') NOT NULL,
     usuario_id INT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+
+    CONSTRAINT fk_habilidades_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+        ON DELETE CASCADE
 );
